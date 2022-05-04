@@ -8,7 +8,7 @@ jobs:
   build:
     name: build artifact
     runs-on: ubuntu-latest
-    timeout-mintus: 3
+    timeout-minutes: 3
     container: node:alpine
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
   upload:
     name: upload to server
     runs-on: ubuntu-latest
-    timeout-mintus: 2
+    timeout-minutes: 2
     container: alpine
     needs: [build]
     steps:
