@@ -26,7 +26,7 @@ jobs:
   upload:
     name: upload to server
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     container: alpine
     needs: [build]
     steps:
@@ -34,14 +34,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: .
-          
       - name: deploy file to server
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        uses: SamKirkland/FTP-Deploy-Action@3.1.1
         with:
           server: ${{secrets.SFTP_SERVER}}
           username: ${{secrets.SFTP_USER}}
           password: ${{secrets.SFTP_PASSWORD}}
-          protocol: ftp
           port: ${{secrets.SFTP_PORT}}
           local-dir: ./html-artifact/
           server-dir: /data/www/main/shorturl/
+          git-ftp-args: --insecure
