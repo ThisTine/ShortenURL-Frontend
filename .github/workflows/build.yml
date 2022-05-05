@@ -1,4 +1,4 @@
-name: Deploy
+name: ✨ Deploy
 
 on:
   push:
@@ -6,35 +6,35 @@ on:
       - master
 jobs:
   build:
-    name: build artifact
+    name: 🔥 build artifact
     runs-on: ubuntu-latest
     timeout-minutes: 3
     container: node:alpine
     steps:
-      - name: Checkout
+      - name: 🛒 Checkout
         uses: actions/checkout@v2
       - name: build react
         run: |
           npm install
           npm run build
-      - name: upload artifact
+      - name: ☁️ upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: html-artifact
           path: ./build
   
   upload:
-    name: upload to server
+    name: 🌨️ upload to server
     runs-on: ubuntu-latest
     timeout-minutes: 5
     container: alpine
     needs: [build]
     steps:
-      - name: download artifacts
+      - name: 💌 download artifacts
         uses: actions/download-artifact@v2
         with:
           path: .
-      - name: deploy file to server
+      - name: 💣 deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
           username: ${{secrets.SFTP_USER}}
@@ -43,14 +43,3 @@ jobs:
           local_path: './html-artifact/*'
           remote_path: '/home/pubc/data/www/main/shorturl/*'
           args: '-o ConnectTimeout=5'
-
-          
-        # uses: SamKirkland/FTP-Deploy-Action@3.1.1
-        # with:
-        #   server: ${{secrets.SFTP_SERVER}}
-        #   username: ${{secrets.SFTP_USER}}
-        #   password: ${{secrets.SFTP_PASSWORD}}
-        #   port: ${{secrets.SFTP_PORT}}
-        #   local-dir: ./html-artifact/
-        #   server-dir: /data/www/main/shorturl/
-        #   git-ftp-args: --insecure
