@@ -157,7 +157,7 @@ function App() {
                   isloadingpath
                 }
                 isLoading={isloadingpath}
-                colorScheme="purple"
+                colorScheme="teal"
                 size="lg"
                 w="100%"
               >
