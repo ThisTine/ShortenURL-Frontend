@@ -35,12 +35,22 @@ jobs:
         with:
           path: .
       - name: deploy file to server
-        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
-          server: ${{secrets.SFTP_SERVER}}
           username: ${{secrets.SFTP_USER}}
-          password: ${{secrets.SFTP_PASSWORD}}
-          port: ${{secrets.SFTP_PORT}}
-          local-dir: ./html-artifact/
-          server-dir: /data/www/main/shorturl/
-          git-ftp-args: --insecure
+          server: ${{secrets.SFTP_SERVER}}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          local_path: './html-artifact/*'
+          remote_path: '/home/pubc/data/www/main/shorturl/*'
+          args: '-o ConnectTimeout=5'
+
+          
+        # uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        # with:
+        #   server: ${{secrets.SFTP_SERVER}}
+        #   username: ${{secrets.SFTP_USER}}
+        #   password: ${{secrets.SFTP_PASSWORD}}
+        #   port: ${{secrets.SFTP_PORT}}
+        #   local-dir: ./html-artifact/
+        #   server-dir: /data/www/main/shorturl/
+        #   git-ftp-args: --insecure
