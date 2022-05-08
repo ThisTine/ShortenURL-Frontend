@@ -81,7 +81,7 @@ function App() {
   return (
     <Center mt={16}>
       <CardContainer>
-        <VStack h="100vh" justifyContent={"center"}>
+        <VStack minH="100vh" justifyContent={"center"}>
           <VStack
             as="form"
             onSubmit={form.onSubmit(submit)}
