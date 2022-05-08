@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Box, ChakraProvider,Container,extendTheme, Heading, HStack } from '@chakra-ui/react';
 import ModalContextProvider from './contexts/ModalContextProvider';
+import UrlsContextProvider from './contexts/UrlsContextProvider';
 
 const activeLabelStyles = {
   transform: 'scale(0.85) translateY(-24px)',
@@ -50,6 +51,7 @@ const root = createRoot(
 root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
+      <UrlsContextProvider>
       <ModalContextProvider>
       <Box bg="white" shadow={"md"} h={16} pos="fixed" w="100%" >
         <Container w="100%" maxW={{md:"100%",lg:"90%"}} h="100%" d="flex" alignItems={"center"}>
@@ -60,6 +62,7 @@ root.render(
       </Box>
     <App />
     </ModalContextProvider>
+    </UrlsContextProvider>
     </ChakraProvider>
   </React.StrictMode>
 );
