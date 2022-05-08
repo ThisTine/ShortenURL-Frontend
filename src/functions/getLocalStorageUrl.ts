@@ -1,4 +1,4 @@
-export default function getLocalStorageUrl(){
+export default function getLocalStorageUrl(insert?:{shorturl:string,url:string}){
     let data:{url:string,shorturl:string}[] = []
     let ids:string[] = []
     const items = JSON.parse(localStorage.getItem("urls") || "[]")
@@ -9,6 +9,9 @@ export default function getLocalStorageUrl(){
                 ids.push(item.shorturl)
             }
         })
+    }
+    if(insert && !ids.includes(insert.shorturl)){
+        data.push(insert)
     }
     return items
 }

@@ -69,7 +69,7 @@ function App() {
      const data = await axios().post("/api/shorten",{url:values.url,path:values.path})
      toast({status:"success",title:"Success"})
      actions({type:"copy",data:{shorturl:data.data}})
-    localStorage.setItem("urls",JSON.stringify([...getLocalStorageUrl(),{url:values.url,shorturl:data.data}]))
+    localStorage.setItem("urls",JSON.stringify([...getLocalStorageUrl({url:values.url,shorturl:data.data})]))
     refresh()
      setshorturl(data.data)
      form.reset()
