@@ -63,7 +63,6 @@ function App() {
 
   const submit = async (values: { url: string; path: string }) => {
     // console.log("test")
-    
     try{
       setisloadingpath(true)
      const data = await axios().post("/api/shorten",{url:values.url,path:values.path})
@@ -80,7 +79,7 @@ function App() {
     }
   };
   return (
-    <Center >
+    <Center mt={16}>
       <CardContainer>
         <VStack h="100vh" justifyContent={"center"}>
           <VStack
