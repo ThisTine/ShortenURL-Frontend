@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Box,
   Center,
-  Container,
   Heading,
   Input,
   VStack,
@@ -10,29 +9,24 @@ import {
   FormLabel,
   Button,
   useToast,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  useClipboard,
-  Tooltip,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import "./index.css";
 import { useDebouncedValue, useForm } from "@mantine/hooks";
 import { useAxios } from "./hooks/useAxios";
+import CardContainer from "./components/CardContainer";
+import { ModalContext } from "./contexts/ModalContextProvider";
+import LoadPrevUrl from "./components/LoadPrevUrl";
+import getLocalStorageUrl from "./functions/getLocalStorageUrl";
+import { urlContext } from "./contexts/UrlsContextProvider";
 function App() {
+  const {actions} = useContext(ModalContext)
+  const {refresh} = useContext(urlContext)
   const axios = useAxios();
   const toast = useToast()
   const [isPathchecked, setisPathChecked] = useState(false);
   const [isloadingpath, setisloadingpath] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const [shorturl,setshorturl] = useState("")
-  const {hasCopied,onCopy} = useClipboard( (process.env.NODE_ENV === "production" ? "https://s.thistine.com/" : "http://localhost:8000" )+shorturl)
   const form = useForm({
     initialValues: {
       url: "",
@@ -68,11 +62,15 @@ function App() {
   }, [path,checkpathCallback]);
 
   const submit = async (values: { url: string; path: string }) => {
+    // console.log("test")
+    
     try{
       setisloadingpath(true)
      const data = await axios().post("/api/shorten",{url:values.url,path:values.path})
      toast({status:"success",title:"Success"})
-     onOpen()
+     actions({type:"copy",data:{shorturl:data.data}})
+    localStorage.setItem("urls",JSON.stringify([...getLocalStorageUrl(),{url:values.url,shorturl:data.data}]))
+    refresh()
      setshorturl(data.data)
      form.reset()
      setisloadingpath(false)
@@ -82,27 +80,8 @@ function App() {
     }
   };
   return (
-    <>
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Here is you shorturl</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody p={5}>
-            <Tooltip isOpen={hasCopied} label="Copied !" bg="green.300" hasArrow size={"lg"}>
-            <Heading p={5} bg={hasCopied ? "green.300" :"gray.200"} color={hasCopied? "white" :"black"} rounded={"3xl"} transition={"0.1s"} cursor="pointer" onClick={()=>onCopy()} >s.thistine.com/{shorturl}</Heading>
-            </Tooltip>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='gray' onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    <Center bg="#fafafa">
-      <Container maxW={{base:"100%",lg:"container.lg"}} w="100%">
+    <Center >
+      <CardContainer>
         <VStack h="100vh" justifyContent={"center"}>
           <VStack
             as="form"
@@ -165,10 +144,10 @@ function App() {
               </Button>
             </Box>
           </VStack>
+          <LoadPrevUrl/>
         </VStack>
-      </Container>
+      </CardContainer>
     </Center>
-    </>
   );
 }
 
