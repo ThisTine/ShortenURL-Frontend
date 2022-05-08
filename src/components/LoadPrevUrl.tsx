@@ -1,4 +1,4 @@
-import { VStack, Box, Heading, Text, HStack } from "@chakra-ui/react"
+import { VStack} from "@chakra-ui/react"
 import { useContext } from "react"
 import { urlContext } from "../contexts/UrlsContextProvider"
 import PrevUrlComponents from "./PrevUrlComponents"

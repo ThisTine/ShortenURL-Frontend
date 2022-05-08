@@ -9,7 +9,7 @@ const UrlsContextProvider:FC<{children:ReactNode}> = (props)=>{
     }
     useLayoutEffect(()=>{
         seturls(getLocalStorageUrl())
-    },[getLocalStorageUrl,seturls])
+    },[seturls])
     return <urlContext.Provider value={{urls,refresh}} {...props} />
 }
 
