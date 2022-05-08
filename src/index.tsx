@@ -53,7 +53,7 @@ root.render(
     <ChakraProvider theme={theme}>
       <UrlsContextProvider>
       <ModalContextProvider>
-      <Box bg="white" shadow={"md"} h={16} pos="fixed" w="100%" top={0} >
+      <Box bg="white" shadow={"md"} h={16} pos="fixed" w="100%" top={0} zIndex={999} >
         <Container w="100%" maxW={{md:"100%",lg:"90%"}} h="100%" d="flex" alignItems={"center"}>
           <HStack>
           <Heading size="md" as="a" href="https://thistine.com" fontWeight={"bold"}>Thistine</Heading>
