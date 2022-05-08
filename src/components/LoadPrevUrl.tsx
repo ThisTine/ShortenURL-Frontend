@@ -7,7 +7,7 @@ const LoadPrevUrl = ()=>{
     const {urls} = useContext(urlContext)
     return(
         <VStack pt={10} w="100%" alignItems={"flex-start"}>
-            {urls.map(item=><PrevUrlComponents {...item}/>)}
+            {urls.map(item=><PrevUrlComponents key={item.shorturl} {...item}/>)}
             
           </VStack>
     )
