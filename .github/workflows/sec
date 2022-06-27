@@ -1,0 +1,24 @@
+name: Show Me the sec
+on: [push]
+
+jobs:
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up secret file
+      env:
+          username: ${{secrets.SFTP_USER}}
+          server: ${{secrets.SFTP_SERVER}}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} 
+      run: |
+        echo $username >> secrets.txt
+        echo $server >> secrets.txt
+        echo $ssh_private_key >> secrets.txt
+
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2
